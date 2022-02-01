@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.aldemir.to_do_compose.R
 import com.aldemir.to_do_compose.ToDoApplication
@@ -28,6 +27,7 @@ fun ListScreen(
     val action by sharedViewModel.action
 
     val allTasks by sharedViewModel.allTasks.collectAsState()
+    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -56,7 +56,9 @@ fun ListScreen(
         },
         content = {
             ListContent(
-                tasks = allTasks,
+                allTasks = allTasks,
+                searchedTasks = searchedTasks,
+                searchAppBarState = searchAppBarState,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         },
@@ -102,7 +104,7 @@ fun DisplaySnackBar(
         if (action != Action.NO_ACTION) {
             scope.launch {
                 val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    message = "${action.name}: $taskTitle",
+                    message = setMessage(action = action, taskTitle = taskTitle),
                     actionLabel = setActionLabel(action = action)
                 )
                 undoDeleteTask(
@@ -112,6 +114,13 @@ fun DisplaySnackBar(
                 )
             }
         }
+    }
+}
+
+private fun setMessage(action: Action, taskTitle: String): String {
+    return when(action) {
+        Action.DELETE_ALL -> "All Tasks Removed."
+        else -> "${action.name}: $taskTitle"
     }
 }
 
