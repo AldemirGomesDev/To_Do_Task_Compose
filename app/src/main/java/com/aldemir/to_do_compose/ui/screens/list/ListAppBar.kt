@@ -40,7 +40,7 @@ fun ListAppBar(
                 onSearchClicked = {
                     sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
                 },
-                onSortClicked = {},
+                onSortClicked = { sharedViewModel.persistSortState(it) },
                 onDeleteAllClicked = {
                     sharedViewModel.action.value = Action.DELETE_ALL
                 }
@@ -50,7 +50,8 @@ fun ListAppBar(
             SearchAppBar(
                 text = searchTextState,
                 onTextChange = { newText ->
-                    sharedViewModel.searchTextState.value = newText },
+                    sharedViewModel.searchTextState.value = newText
+                },
                 onCloseClicked = {
                     sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
                     sharedViewModel.searchTextState.value = ""
@@ -112,7 +113,7 @@ fun ListAppBarActions(
 @Composable
 fun SearchAction(
     onSearchClicked: () -> Unit
-){
+) {
     IconButton(
         onClick = { onSearchClicked() }
     ) {
@@ -175,7 +176,7 @@ fun SortAction(
 @Composable
 fun DeleteAllAction(
     onDeleteAllConfirmed: () -> Unit
-){
+) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -213,7 +214,7 @@ fun SearchAppBar(
     onTextChange: (String) -> Unit,
     onCloseClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
-){
+) {
     var trailingIconState by remember {
         mutableStateOf(TrailingIconState.READY_TO_DELETE)
     }
@@ -257,9 +258,9 @@ fun SearchAppBar(
             trailingIcon = {
                 IconButton(
                     onClick = {
-                        when(trailingIconState) {
+                        when (trailingIconState) {
                             TrailingIconState.READY_TO_DELETE -> {
-                                if(text.isEmpty()) {
+                                if (text.isEmpty()) {
                                     onCloseClicked()
                                 } else {
                                     onTextChange("")
@@ -267,9 +268,9 @@ fun SearchAppBar(
                                 }
                             }
                             TrailingIconState.READY_TO_CLOSE -> {
-                                if(text.isNotEmpty()) {
+                                if (text.isNotEmpty()) {
                                     onTextChange("")
-                                }else {
+                                } else {
                                     onCloseClicked()
                                     trailingIconState = TrailingIconState.READY_TO_DELETE
                                 }
