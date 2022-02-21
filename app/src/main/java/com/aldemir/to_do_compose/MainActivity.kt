@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,6 +18,7 @@ import com.aldemir.to_do_compose.ui.theme.ToDoComposeTheme
 import com.aldemir.to_do_compose.ui.viewmodels.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
