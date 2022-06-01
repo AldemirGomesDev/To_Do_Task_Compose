@@ -6,16 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.aldemir.to_do_compose.navigation.SetupNavigation
 import com.aldemir.to_do_compose.ui.theme.ToDoComposeTheme
 import com.aldemir.to_do_compose.ui.viewmodels.SharedViewModel
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalAnimationApi
@@ -30,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ToDoComposeTheme {
-                navController = rememberNavController()
+                navController = rememberAnimatedNavController()
                 SetupNavigation(
                     navController = navController,
                     sharedViewModel = sharedViewModel
